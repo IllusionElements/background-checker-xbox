@@ -1,0 +1,17 @@
+<template name="profile">
+    <div class="media">
+      <img class="mr-3 my-4" src={{profile.imgURL}} alt="Generic placeholder image">
+      <div class="media-body">
+        <h3 class="mt-0 my-4">{{profile.name}}'s Profile</h3>
+        <ul class="list-unstyled my-4">
+        <li>Gamerscore: {{profile.gamerscore}}</li>
+        <li>Motto: {{profile.location}}</li>
+        <li>Xbox Membership: {{profile.tier}}</li>
+        <li>Bio: {{profile.bio}}</li>
+        </ul>
+        <button class="btn btn-danger btn-block m">View {{profile.name}}'s Friends</button>
+      </div>
+    </div>  
+
+
+</template>

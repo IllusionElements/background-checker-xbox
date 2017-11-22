@@ -1,0 +1,10 @@
+<template name="friends">
+    {{#if check_if_eql_one}}
+        <h3 class="text-center">{{> tags}} Friends</h3>
+        {{#each keys friend}}
+           <h4 class="text-center">{{name}}</h4>
+        {{/each}}
+    {{else}}
+        <h4 class="text-danger">{{{friend}}}</h4>
+    {{/if}}
+</template>

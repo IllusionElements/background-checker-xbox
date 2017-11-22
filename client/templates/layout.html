@@ -1,0 +1,41 @@
+<body>
+	{{renderPage}}
+	
+</body>
+
+<template name="layout">
+
+	
+	
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <header class="masthead clearfix">
+            <div class="inner">
+              {{>navbar}}
+            </div>
+          </header>
+
+          <main role="main" class="inner cover">
+            		{{> yield}}
+            	{{#if check_if_init}}
+					{{> profile}}
+				{{/if}}
+          </main>
+
+          <!--<footer class="mastfoot">-->
+          <!--  {{>footer}}-->
+          <!--</footer>-->
+
+        </div>
+
+      </div>
+
+    </div>
+
+</template>
+
+
