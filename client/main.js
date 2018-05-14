@@ -40,53 +40,46 @@ Template.search.events({
 })
 
 
-// Template.search.events({
-// 	'submit #search': function(e){
-// 		e.preventDefault();
-// 		let searchText = event.target.gt_name.value; //grabs the text from the search box and puts it as the search text var
-// 		let blkd = "<h3 class='text-danger'>"+searchText + " has their friends list blocked</h3>"
-// 		Meteor.call('searchFriends', searchText, (err, friends) => { //call the xbox-live api by passing searchText as the search parameter
-// 			var data = friends.data;
-// 			hide = 1;
-// 			Session.set('hideVal',hide);
-// 			if(err){
-// 				console.log(err+"help");
-// 			} else if(data.hasOwnProperty("code") && data.code == 1029){ //api response is different if it cannot retrieve friends; code 1029: is for blocked friends list
-// 				check = 0;
-// 				console.log("Err: "+data.code + " blocked");
-// 				Session.set('checkVal', check);
-// 				Session.set('gamertag', blkd); 
+Template.search.events({
+ 	'submit #search': function(e){
+		e.preventDefault();
+ 		let searchText = event.target.gt_name.value; //grabs the text from the search box and puts it as the search text var
+ 		let blkd = "<h3 class='text-danger'>"+searchText + " has their friends list blocked</h3>"
+ 		Meteor.call('searchFriends', searchText, (err, friends) => { //call the xbox-live api by passing searchText as the search parameter
+ 			var data = friends.data;
+ 			hide = 1;
+ 			Session.set('hideVal',hide);
+ 			if(err){
+ 				console.log(err+"help");
+ 			} else if(data.hasOwnProperty("code") && data.code == 1029){ //api response is different if it cannot retrieve friends; code 1029: is for blocked friends list
+ 				check = 0;
+ 				console.log("Err: "+data.code + " blocked");
+ 				Session.set('checkVal', check);
+ 				Session.set('gamertag', blkd); 
 				
-// 			} else if(data.hasOwnProperty("code") && data.code == 1007){ //data.code: 1007 references a invalid gamertag.
-// 				check = 0;
-// 				console.log("invalid gt");
-// 				Session.set('checkVal', check);
-// 				Session.set('gamertag', "<h3 class='text-warning'>Invalid Gamertag/Gamertag doesn't exist</h3>");
-// 			} else { //using the lookup gamertag and loading it onto session variables as last of the if loop
-// 				check = 1;
-// 				console.log(data[0]);
-// 				Session.set('checkVal', check);
-// 				Session.set('tags', data);
-// 				Session.set('name', searchText);
-// 			}
-// 		})
-// 	}
-// })
+ 			} else if(data.hasOwnProperty("code") && data.code == 1007){ //data.code: 1007 references a invalid gamertag.
+ 				check = 0;
+ 				console.log("invalid gt");
+ 				Session.set('checkVal', check);
+ 				Session.set('gamertag', "<h3 class='text-warning'>Invalid Gamertag/Gamertag doesn't exist</h3>");
+ 			} else { //using the lookup gamertag and loading it onto session variables as last of the if loop
+ 				check = 1;
+ 				console.log(data[0]);
+ 				Session.set('checkVal', check);
+ 				Session.set('tags', data);
+ 				Session.set('name', searchText);
+ 			}
+ 		})
+ 	}
+ })
 
 
 
-Template.registerHelper('keys', function iterate(h){ 
-	var result = [];
-	if(check !==0){	
-		for (var key in h){
-			if(h.hasOwnProperty(key)){
-				result.push({name:h[key].Gamertag});
-			}
-		
-		}
-	} 
-	console.log(result);
-  return result;
+Template.registerHelper('keys', function iterate(results){ 
+  function resultMap(name) {
+    return { name: results[name].Gamertag };
+  }
+  return check === 0 ? [] : Object.keys(results).map(resultMap)
 });
 
 Template.friends.helpers({
